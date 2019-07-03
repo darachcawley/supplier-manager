@@ -28,12 +28,15 @@ public class OrderService {
 
     private final Random amount = new Random();
 
-    public Order generateOrder() {
+    public Order generateOrder(Map<String, Object> request) {
+    	System.out.println("request: " + request);
+//    	System.out.println("request: " + request.get("quantity"));
         Order order = new Order();
         order.setId(counter.incrementAndGet());
         order.setItem(counter.get() % 2 == 0 ? "Camel" : "ActiveMQ");
         order.setAmount(amount.nextInt(10) + 1);
         order.setDescription(counter.get() % 2 == 0 ? "Camel in Action" : "ActiveMQ in Action");
+        order.setQuantity(Integer.valueOf((String)request.get("quantity")));
         return order;
     }
 

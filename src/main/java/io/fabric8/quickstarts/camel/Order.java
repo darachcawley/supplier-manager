@@ -22,6 +22,7 @@ public class Order {
     private int amount;
     private String description;
     private boolean processed;
+    private int quantity;
 
     public int getId() {
         return id;
@@ -61,5 +62,13 @@ public class Order {
 
     public void setProcessed(boolean processed) {
         this.processed = processed;
+    }
+    
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

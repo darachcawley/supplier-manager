@@ -25,6 +25,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.stereotype.Component;
+import org.apache.camel.Exchange;
 
 @SpringBootApplication
 @ImportResource({"classpath:spring/camel-context.xml"})
@@ -56,12 +57,24 @@ public class Application extends SpringBootServletInitializer {
                 .component("servlet")
                 .bindingMode(RestBindingMode.json);
 
-            rest("/books").description("Restock Books REST service")
-                .post("/").description("Submit an order to restock a book")
+            rest("/books")
+        		.consumes("application/json")
+        		.produces("application/json")
+            	.description("Restock Books REST service")
+                .post("/")
+                	.description("Submit an order to restock a book")
                     .route().routeId("books-api")
-                    .bean("orderService", "generateOrder")
-                    .log("Processed order #id ${body.id} with ${body.amount} copies of the «${body.description}» book")
+                    .bean("orderService", "generateOrder(${body})")
+                    .log("Processed restock order request #id: ${body.id} for: ${body.item} & a quantity of: ${body.quantity}")
+                    .to("direct:callSupplier")
                     .endRest();
+            
+            from("direct:callSupplier")
+	            .routeId("call-supplier")
+	            .setHeader(Exchange.HTTP_METHOD, constant("POST"))
+	            .setHeader(Exchange.CONTENT_TYPE, constant("application/x-www-form-urlencoded"))
+	            .setBody(simple("Quantity: ${body.quantity}"))
+	            .to("https://mockmenow.free.beeceptor.com/my/api/path?bridgeEndpoint=true"); // must use ?bridgeEndpoint=true
         }
     }
 }
