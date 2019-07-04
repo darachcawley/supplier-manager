@@ -1,11 +1,11 @@
 camel:
   springboot:
-    name: CamelRestSql
+    name: SupplierManager
   component:
     servlet:
       mapping:
         enabled: true
-        context-path: /camel-rest-sql/*
+        context-path: /restock/*
 
 quickstart:
   generateOrderPeriod: 1s

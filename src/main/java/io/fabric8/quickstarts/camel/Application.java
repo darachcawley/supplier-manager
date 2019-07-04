@@ -72,9 +72,11 @@ public class Application extends SpringBootServletInitializer {
             from("direct:callSupplier")
 	            .routeId("call-supplier")
 	            .setHeader(Exchange.HTTP_METHOD, constant("POST"))
-	            .setHeader(Exchange.CONTENT_TYPE, constant("application/x-www-form-urlencoded"))
-	            .setBody(simple("Quantity: ${body.quantity}"))
-	            .to("https://mockmenow.free.beeceptor.com/my/api/path?bridgeEndpoint=true"); // must use ?bridgeEndpoint=true
+	            .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+	            .removeHeaders("CamelHttp*") // remove Camel headers to non camel endpoints - they will get rejected otherwise 
+	            .setBody( simple("{ \"orderItem\": \"${body.id}\", \"quantity\": \"${body.quantity}\" }"))
+	            .log("Supplier payload: ${body}")
+	            .to("http://supplier-api-camel-test-brian.1ef9.nwr-dev.openshiftapps.com/orders/v1.0");
         }
     }
 }

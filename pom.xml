@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.fabric8.quickstarts</groupId>
-    <artifactId>spring-boot-camel-rest-sql</artifactId>
+    <artifactId>supplier-manager</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>Fabric8 :: Quickstarts :: Spring-Boot :: Camel REST / SQL</name>
-    <description>Spring Boot example running a Camel REST route connecting to a SQL database</description>
+    <name>Supplier Manager</name>
+    <description>Spring Boot, Camel REST route for ordering a restock of products</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -91,15 +91,6 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-swagger-java-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-sql-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.hsqldb</groupId>
